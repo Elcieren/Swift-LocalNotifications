@@ -1,7 +1,7 @@
 ## Swift-LocalNotifications Uygulama Kullanımı
 | Bildirim Izni | Standart bildirim | Etkileşimli Bildirim(Daha Sonra Hatırlat) |
 |---------|---------|---------|
-| ![Video 1](https://github.com/user-attachments/assets/772aac39-2a81-45da-898d-d5732078308d) | ![Video 2](https://github.com/user-attachments/assets/59497a87-9153-49e8-b839-7684773504ef) | ![Video 3](https://github.com/user-attachments/assets/19682d61-ba04-4155-bbf5-bbab34c479cf) |
+| ![Video 1](https://github.com/user-attachments/assets/59497a87-9153-49e8-b839-7684773504ef) | ![Video 2](https://github.com/user-attachments/assets/772aac39-2a81-45da-898d-d5732078308d) | ![Video 3](https://github.com/user-attachments/assets/19682d61-ba04-4155-bbf5-bbab34c479cf) |
 
  <details>
     <summary><h2>Uygulma Amacı</h2></summary>

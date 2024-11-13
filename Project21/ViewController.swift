@@ -13,7 +13,7 @@ class ViewController: UIViewController , UNUserNotificationCenterDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        UNUserNotificationCenter.current().delegate = self
         navigationController?.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(title: "Register", style: UIBarButtonItem.Style.plain, target: self, action: #selector(registerLocal))
         
        let button1 = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
@@ -28,9 +28,10 @@ class ViewController: UIViewController , UNUserNotificationCenterDelegate {
         // Bildirim eylemlerini tanımlıyoruz
             let replyAction = UNNotificationAction(identifier: "REPLY_ACTION", title: "Cevapla", options: [.foreground])
             let cancelAction = UNNotificationAction(identifier: "CANCEL_ACTION", title: "İptal Et", options: [])
+        let dahaSonraAction = UNNotificationAction(identifier: "DAHA_SONRA_ACTION", title: "Bana daha sonra hatırlat", options: [])
             
             // Bildirim kategorisini oluşturuyoruz
-            let category = UNNotificationCategory(identifier: "MESSAGE_CATEGORY", actions: [replyAction, cancelAction], intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "MESSAGE_CATEGORY", actions: [replyAction, cancelAction ,  dahaSonraAction], intentIdentifiers: [], options: [])
             
             // Kullanıcı bildirim merkeziyle etkileşimli kategoriyi ayarlıyoruz
             let center = UNUserNotificationCenter.current()
@@ -95,6 +96,25 @@ class ViewController: UIViewController , UNUserNotificationCenterDelegate {
     }
     
     
-    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+            if response.actionIdentifier == "DAHA_SONRA_ACTION" {
+                // 1 dakika sonra aynı bildirimi tekrar gönderiyoruz
+                let newContent = UNMutableNotificationContent()
+                newContent.title = "Hatırlatma"
+                newContent.body = "Bu, daha önce istediğiniz hatırlatma bildirimi."
+                newContent.sound = .default
+                newContent.categoryIdentifier = response.notification.request.content.categoryIdentifier
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: newContent, trigger: trigger)
+                center.add(request) { error in
+                    if let error = error {
+                        print("Bildirim tekrar eklenirken hata oluştu: \(error.localizedDescription)")
+                    } else {
+                        print("5 sonra tekrar bildirim ayarlandı.")
+                    }
+                }
+            }
+            completionHandler()
+        }
 }
 
